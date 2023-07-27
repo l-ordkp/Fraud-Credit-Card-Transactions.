@@ -10,7 +10,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import BaggingClassifier
-from sklearn.svm import SVC
+import joblib
 fake = pd.read_csv("C:\\Users\\Kshit\\Desktop\\fraudTest.csv")
 # print(fake.info(),fake.head())
 ## Data Preprocessing 
@@ -110,7 +110,7 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_
 # print("Accuracy:", accuracy2)
 # Accuracy: 0.9962571078960628
 ##Random Forest Classifier
-# model3 = RandomForestClassifier()
+model3 = RandomForestClassifier()
 # model3.fit(x_train,y_train)
 # y3pred = model3.predict(x_test)
 # accuracy3 = accuracy_score(y_test,y3pred)
@@ -119,22 +119,13 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_
 ##Ensemble learning with bagging
 
 #Initialize the Bagging classifier with the base estimator and the desired number of estimators (models)
-# model4 = BaggingClassifier(estimator=model3, n_estimators=10, random_state=42)
+model4 = BaggingClassifier(estimator=model3, n_estimators=10, random_state=42)
 # model4.fit(x_train, y_train)
 # y_pred4 = model4.predict(x_test)
 # accuracy4 = accuracy_score(y_test, y_pred4)
 # print("Accuracy:", accuracy4)
 #Accuracy: 0.9977236737925574
-##SVM
-model5= SVC(kernel='linear')  # You can try different kernels like 'poly', 'rbf', etc.
+# Therefore we will use model4 as its accuracy is above 99%.
 
-# Train the classifier on the training data
-model5.fit(x_train, y_train)
-
-# Make predictions on the test data
-y_pred5 = model5.predict(x_test)
-
-# Calculate accuracy
-accuracy5 = accuracy_score(y_test, y_pred5)
-print("Accuracy:", accuracy5)
-
+## Saving the machine learning model.
+joblib.dump(model4, 'Ftransactiondetector.joblib')
